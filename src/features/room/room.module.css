@@ -1,0 +1,18 @@
+.room {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  color: #ffffff;
+}
+
+.vr {
+  position: absolute;
+  z-index: inherit;
+  width: 100vw;
+  height: 100vh;
+}
+
+.buttons {
+  position: absolute;
+  z-index: inherit;
+}
