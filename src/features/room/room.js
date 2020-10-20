@@ -89,14 +89,6 @@ export default function Room() {
           setChairs( objRoom.current.scene )
           setFloor( objRoom.current.scene )
           setPiano( objRoom.current.scene )
-
-          // for( let i = 0; i < 6; i++ ) {
-          //   const light = objRoom.current
-          //     .scene.getObjectByName(`spotlight-chair-${i}`)
-          //   light.color.r = 0
-          //   light.color.g = 1
-          //   light.color.b = 0
-          // }
         })
         .then( () => {
           // バックスクリーンの配置
@@ -243,9 +235,15 @@ export default function Room() {
     }
   }, [numAttendees, status, dispatch])
 
-
-
-
+  const changeLightsColor = useCallback( (r, g, b) => {
+    for( let i = 0; i < 6; i++ ) {
+      const light = objRoom.current
+        .scene.getObjectByName(`spotlight-chair-${i}`)
+      light.color.r = r
+      light.color.g = g
+      light.color.b = b
+    }
+  }, [])
 
   return (
     <div className={styles.room}>
@@ -261,6 +259,17 @@ export default function Room() {
           <button onClick={ handleClickRemAttendee }>rem attendee (debug)</button>
         )}
         <br />
+        <div>
+          <button onClick={ 
+            e => changeLightsColor(1, 0, 0) 
+          }>change light color(red)</button>
+          <button onClick={ 
+            e => changeLightsColor(0, 1, 0) 
+          }>change light color(green)</button>
+          <button onClick={ 
+            e => changeLightsColor(0, 0, 1) 
+          }>change light color(blue)</button>
+        </div>
       </div>
     </div>
   );
