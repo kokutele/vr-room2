@@ -1,8 +1,8 @@
 import { config } from '../config'
 import * as THREE from 'three'
 
-export function setScreen( scene ){
-  const { width, height } = config.screen
+export function setScreen( scene, name = "screen" ){
+  const { width, height } = config[name]
   const canvas = document.createElement('canvas')
   canvas.width = 640
   canvas.height = 480
@@ -16,9 +16,9 @@ export function setScreen( scene ){
 
   const plane = new THREE.Mesh( geometry, material )
 
-  // plane.rotateX( Math.PI * config.rotationX / 180 )
+  plane.rotateX( Math.PI * config[name].rotationX / 180 )
   plane.rotateY( -Math.PI )
-  plane.position.set.apply(plane.position, config.screen.position)
+  plane.position.set.apply(plane.position, config[name].position)
 
   scene.add( plane )
 

@@ -11,6 +11,7 @@ export const roomSlice = createSlice({
   initialState: {
     status: STATUS.INITIALIZED,
     angleName: 'entire',
+    numAttendees: 0,
   },
   reducers: {
     setStatus: function( state, action ) {
@@ -19,12 +20,24 @@ export const roomSlice = createSlice({
     setAngleName: ( state, action ) => {
       state.angleName = action.payload
     },
+    addAttendee:( state ) => {
+      ++state.numAttendees
+    },
+    remAttendee:( state ) => {
+      --state.numAttendees
+    }
   },
 });
 
-export const { setStatus, setAngleName } = roomSlice.actions;
+export const { 
+  setStatus, 
+  setAngleName,
+  addAttendee,
+  remAttendee,
+} = roomSlice.actions;
 
 export const selectStatus = state => state.room.status;
 export const selectAngleName = state => state.room.angleName;
+export const selectNumAttendees = state => state.room.numAttendees
 
 export default roomSlice.reducer;
