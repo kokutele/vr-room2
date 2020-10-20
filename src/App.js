@@ -8,7 +8,11 @@ function App() {
       { entered ? (
         <Room />
       ):(
-        <button onClick={ e => setEntered(true) }>enter room</button>
+        <div>
+          <a href="https://sascacci.com/" target="_blank" rel="noopener noreferrer">sascacci.com</a>
+          <br />
+          <button onClick={ e => setEntered(true) }>enter room</button>
+        </div>
       )}
     </div>
   );

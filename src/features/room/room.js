@@ -65,6 +65,7 @@ export default function Room() {
         window.MIDI.loadPlugin({
           soundfontUrl: "/libs/soundfont/",
           instrument: "acoustic_grand_piano",
+          //instrument: "synth_drum",
           onprogress: ( state, progress ) => {
             console.log( state, progress )
           },
