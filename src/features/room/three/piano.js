@@ -22,7 +22,6 @@ class Controls {
 };
 const controls = new Controls()
 const noteOnColor = new THREE.Color().setRGB(controls.noteOnColor[0] / 256.0, controls.noteOnColor[1] / 256.0, controls.noteOnColor[2] / 256.0);
-const r = config.radiusOfFloor
 let _scene = null
 
 export let reqPianoAnimationId = null

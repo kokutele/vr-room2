@@ -155,7 +155,7 @@ export default function Room() {
     return function cleanup() {
       if( reqPianoAnimationId ) cancelAnimationFrame( reqPianoAnimationId )
     }
-  }, [])
+  }, [dispatch])
 
   // キーボードタイプでMIDIをエミュレートする
   useEffect(() => {
@@ -218,7 +218,7 @@ export default function Room() {
 
       dispatch( setAngleName( _angleName ))
     }
-  }, [angleName, status])
+  }, [angleName, status, dispatch])
 
   // ルーム参加者表示の開発デバッグ用
   // addAttendee, remAttendee 共に、参加者数をカウントしているだけ
@@ -232,7 +232,7 @@ export default function Room() {
       lissajousArray.current.push( lissajous )
       console.log( lissajousArray.current )
     }
-  }, [numAttendees, status, maxAttendees])
+  }, [numAttendees, status, maxAttendees, dispatch])
 
   const handleClickRemAttendee = useCallback( () => {
     if( status === STATUS.READY && numAttendees > 0 ) {
@@ -240,7 +240,7 @@ export default function Room() {
       lissajousArray.current.splice( numAttendees - 1, 1 )
       console.log( lissajousArray.current )
     }
-  }, [numAttendees, status])
+  }, [numAttendees, status, dispatch])
 
 
 
