@@ -200,14 +200,54 @@ export function setMIDIEmulation() {
       }
     }
   }     
+  console.log(0)
+
+
+  var midi = null;  // // グローバルMIDIAccessオブジェクト
+
+function onMIDISuccess( midiAccess ) {
+  console.log( "MIDI ready!" );
+  midi = midiAccess;  // グローバルに保存します (実際の使用ではおそらくオブジェクトのインスタンスに保持します)
+  console.log( midi )
+  for (var input in midiAccess.inputs) {
+    console.log( "Input port [type:'" + input.type + "'] id:'" + input.id +
+      "' manufacturer:'" + input.manufacturer + "' name:'" + input.name +
+      "' version:'" + input.version + "'" );
+  }
+  midiAccess.inputs.forEach( function(entry) {
+    //entry.value.onmidimessage = onMIDIMessage;
+    console.log( entry )
+    entry.onmidimessage = onMIDIMessage
+  });
 }
+
+function onMIDIFailure(msg) {
+  console.log( "Failed to get MIDI access - " + msg );
+}
+
+navigator.requestMIDIAccess( { sysex: true } ).then( onMIDISuccess, onMIDIFailure );
+}
+
+function onMIDIMessage( event ) {
+  var str = "MIDI message received at timestamp " + event.timestamp + "[" + event.data.length + " bytes]: ";
+  for (var i=0; i<event.data.length; i++) {
+    //str += "0x" + event.data[i].toString(16) + " ";
+    const note_no = event.data[0], note = event.data[1], velocity = event.data[2]
+    console.log(note_no, note, velocity ) 
+    if( note_no === 144 ) note_on("_"+note, velocity)
+    if( note_no === 128 ) note_off("_"+note, velocity)
+  }
+  console.log( str );
+}
+
+
 
 export function note_on( note, velocity = 127 ) {
   key_status( note, keyState.note_on )
 
   const delay = 0
   if( window.MIDI ) {
-    const _note = parseInt( note.slice(1) ) + 12 * 2
+    let _note = parseInt( note.slice(1) )
     console.log( _note, "note_on")
 
     window.MIDI.setVolume( 0, 127 )
@@ -220,12 +260,12 @@ export function note_off( note, velocity = 127 ) {
 
   const delay = 0
   if( window.MIDI ) {
-    const _note = parseInt( note.slice(1) ) + 12 * 2
+    let _note = parseInt( note.slice(1) )
     window.MIDI.setVolume( 0, 127 )
     window.MIDI.noteOff(0, _note, delay + 0.08)
   }
 }
-
+ 
 function key_status( keyName, status ) {
   const obj = _scene.getObjectByName( keyName, true )
   if( obj !== undefined ) {
